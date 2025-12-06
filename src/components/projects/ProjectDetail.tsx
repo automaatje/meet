@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { projectService } from '../../lib/supabase';
 import { useStore } from '../../store/useStore';
-import { ArrowLeft, FileText, Ruler, Image as ImageIcon, Euro, Sparkles, TrendingUp, Receipt } from 'lucide-react';
+import { ArrowLeft, FileText, Ruler, Image as ImageIcon, Euro, Sparkles, TrendingUp, Receipt, ScanLine } from 'lucide-react';
 import ProjectOverview from './ProjectOverview';
 import ProjectMeasurements from './ProjectMeasurements';
 import ProjectPhotos from './ProjectPhotos';
@@ -10,6 +10,7 @@ import ProjectQuote from './ProjectQuote';
 import Visualizer from '../visualizer/Visualizer';
 import Profitability from './Profitability';
 import InvoiceForm from '../invoices/InvoiceForm';
+import MeasurementScanner from '../measurements/MeasurementScanner';
 import type { Database } from '../../lib/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'] & {
@@ -25,6 +26,7 @@ type Project = Database['public']['Tables']['projects']['Row'] & {
 const tabs = [
   { id: 'overview', label: 'Overzicht', icon: FileText },
   { id: 'measurements', label: 'Metingen', icon: Ruler },
+  { id: 'scanner', label: 'AI Scanner', icon: ScanLine },
   { id: 'photos', label: "Foto's", icon: ImageIcon },
   { id: 'visualizer', label: 'Visualisatie', icon: Sparkles },
   { id: 'quote', label: 'Offerte', icon: Euro },
@@ -149,6 +151,7 @@ export default function ProjectDetail() {
           <ProjectOverview project={project} onStatusChange={handleStatusChange} onWorkOrderCreated={loadProject} />
         )}
         {activeTab === 'measurements' && <ProjectMeasurements projectId={project.id} />}
+        {activeTab === 'scanner' && <MeasurementScanner projectId={project.id} onSuccess={loadProject} />}
         {activeTab === 'photos' && <ProjectPhotos projectId={project.id} />}
         {activeTab === 'visualizer' && <Visualizer projectId={project.id} />}
         {activeTab === 'quote' && <ProjectQuote project={project} />}
