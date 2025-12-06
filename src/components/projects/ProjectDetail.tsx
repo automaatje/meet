@@ -11,6 +11,7 @@ import Visualizer from '../visualizer/Visualizer';
 import Profitability from './Profitability';
 import InvoiceForm from '../invoices/InvoiceForm';
 import MeasurementScanner from '../measurements/MeasurementScanner';
+import ProductVisualizer from '../visualizations/ProductVisualizer';
 import type { Database } from '../../lib/database.types';
 
 type Project = Database['public']['Tables']['projects']['Row'] & {
@@ -28,7 +29,7 @@ const tabs = [
   { id: 'measurements', label: 'Metingen', icon: Ruler },
   { id: 'scanner', label: 'AI Scanner', icon: ScanLine },
   { id: 'photos', label: "Foto's", icon: ImageIcon },
-  { id: 'visualizer', label: 'Visualisatie', icon: Sparkles },
+  { id: 'visualizer', label: 'Visualisatie (AI)', icon: Sparkles },
   { id: 'quote', label: 'Offerte', icon: Euro },
   { id: 'profitability', label: 'Winstanalyse', icon: TrendingUp },
 ];
@@ -153,7 +154,7 @@ export default function ProjectDetail() {
         {activeTab === 'measurements' && <ProjectMeasurements projectId={project.id} />}
         {activeTab === 'scanner' && <MeasurementScanner projectId={project.id} onSuccess={loadProject} />}
         {activeTab === 'photos' && <ProjectPhotos projectId={project.id} />}
-        {activeTab === 'visualizer' && <Visualizer projectId={project.id} />}
+        {activeTab === 'visualizer' && <ProductVisualizer projectId={project.id} onSuccess={loadProject} />}
         {activeTab === 'quote' && <ProjectQuote project={project} />}
         {activeTab === 'profitability' && <Profitability projectId={project.id} />}
       </div>
